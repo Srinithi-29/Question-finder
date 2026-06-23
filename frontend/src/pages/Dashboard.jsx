@@ -34,8 +34,8 @@ const Dashboard = () => {
 
   // Helper to color similarity badges based on similarity score percentage
   const getSimilarityBadgeColor = (score) => {
-    if (score >= 80) return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
-    if (score >= 60) return 'bg-amber-50 text-amber-700 border border-amber-200';
+    if (score >= 80) return 'bg-emerald-50 text-emerald-700 border border-emerald-250';
+    if (score >= 60) return 'bg-amber-50 text-amber-700 border border-amber-250';
     return 'bg-slate-100 text-slate-600 border border-slate-200';
   };
 
@@ -43,35 +43,35 @@ const Dashboard = () => {
   const getTagStyle = (tag) => {
     const styles = {
       'Biology': 'bg-green-50 text-green-700 border border-green-200',
-      'Physics': 'bg-sky-50 text-sky-700 border border-sky-200',
+      'Physics': 'bg-primary-50 text-primary-800 border border-primary-100',
       'Chemistry': 'bg-amber-50 text-amber-700 border border-amber-200',
       'Mathematics': 'bg-purple-50 text-purple-700 border border-purple-200',
-      'Computer Science': 'bg-pink-50 text-pink-700 border border-pink-200',
+      'Computer Science': 'bg-accent-50 text-accent-700 border border-accent-100',
     };
     return styles[tag] || 'bg-slate-100 text-slate-600 border border-slate-200';
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-800 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-700 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Decorative Blur Blobs */}
-      <div className="absolute top-0 right-1/4 w-80 h-80 bg-brand-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 right-1/4 w-80 h-80 bg-primary-800/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-accent-700/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Page title and description */}
         <div className="text-center mb-10 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 text-slate-900">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 text-slate-700">
             Ask Your Study Question
           </h1>
-          <p className="text-slate-600 max-w-xl mx-auto font-medium text-sm sm:text-base">
+          <p className="text-slate-500 max-w-xl mx-auto font-medium text-sm sm:text-base">
             Get instant topic tagging and search across existing library materials for duplicates or similar questions.
           </p>
         </div>
 
         {/* Ask Question Card */}
-        <div className="bg-white border border-slate-200/80 p-6 sm:p-8 rounded-3xl shadow-md mb-8">
+        <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-[0_1px_3px_rgba(30,58,138,0.1)] hover:shadow-[0_4px_6px_rgba(30,58,138,0.15)] mb-8 transition-all">
           {error && (
-            <div className="mb-6 flex items-start gap-2.5 p-4 rounded-xl bg-red-50 border border-red-200/60 text-red-750 text-sm">
+            <div className="mb-6 flex items-start gap-2.5 p-4 rounded-xl bg-red-50 border border-red-200/60 text-red-700 text-sm">
               <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -82,7 +82,7 @@ const Dashboard = () => {
               <textarea
                 required
                 rows="4"
-                className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:bg-white rounded-2xl p-4 text-slate-900 placeholder-slate-400 focus:outline-none transition-all resize-none text-base"
+                className="w-full bg-white border border-slate-200 focus:border-accent-700 focus:ring-1 focus:ring-accent-700 rounded-2xl p-4 text-slate-900 placeholder-slate-400 focus:outline-none transition-all resize-none text-base"
                 placeholder="Type your question here..."
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
@@ -93,7 +93,7 @@ const Dashboard = () => {
               <button
                 type="submit"
                 disabled={loading || !question.trim()}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold px-6 py-3.5 rounded-xl cursor-pointer shadow-sm hover:shadow-brand-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary-800 hover:bg-primary-900 text-white font-semibold px-6 py-3.5 rounded-xl cursor-pointer shadow-sm hover:shadow-primary-900/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
               >
                 {loading ? (
                   <>
@@ -114,14 +114,14 @@ const Dashboard = () => {
         {/* Similar Questions Results Card */}
         {result && (
           <div className="space-y-6">
-            <div className="bg-white border border-slate-200/80 p-6 sm:p-8 rounded-3xl shadow-md">
+            <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-[0_1px_3px_rgba(30,58,138,0.1)]">
               {/* Question text and Auto-assigned tag badge */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100">
                 <div>
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Your Question
                   </span>
-                  <p className="text-lg font-semibold text-slate-900 mt-1">
+                  <p className="text-lg font-semibold text-slate-700 mt-1">
                     "{result.question}"
                   </p>
                 </div>
@@ -136,7 +136,7 @@ const Dashboard = () => {
               {/* Top 3 Similar Questions list */}
               <div>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 mb-4 flex items-center gap-2">
-                  <Award className="h-4 w-4 text-brand-650" />
+                  <Award className="h-4 w-4 text-primary-800" />
                   Top 3 Similar Questions
                 </h3>
 
@@ -145,11 +145,11 @@ const Dashboard = () => {
                     {result.similarQuestions.map((item, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start justify-between gap-4 p-4 rounded-2xl bg-slate-55 hover:bg-slate-100/50 border border-slate-200/80 hover:border-slate-300 transition-all"
+                        className="flex items-start justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-primary-200 hover:bg-white transition-all shadow-sm"
                       >
                         <div className="flex gap-3">
                           <HelpCircle className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
-                          <p className="text-sm text-slate-800 leading-relaxed font-medium">
+                          <p className="text-sm text-slate-700 leading-relaxed font-medium">
                             {item.question}
                           </p>
                         </div>
@@ -160,7 +160,7 @@ const Dashboard = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200">
+                  <div className="text-center py-8 rounded-2xl bg-slate-50 border border-dashed border-slate-250">
                     <p className="text-sm text-slate-500 font-medium">
                       No previously stored questions found to compare similarity.
                     </p>
