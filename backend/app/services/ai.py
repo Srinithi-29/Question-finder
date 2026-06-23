@@ -1,5 +1,19 @@
 import logging
 import numpy as np
+import os
+import gc
+
+# Optimize CPU threads for memory conservation on Render
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
+import torch
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
+
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -34,6 +48,9 @@ class AIService:
         topic_texts = [TOPIC_DESCRIPTIONS[tag] for tag in self.topic_tags]
         self.topic_embeddings = self.model.encode(topic_texts)
         logger.info("Precomputed embeddings for topic tags.")
+        
+        # Free up loaded build artifacts and variables to fit within 512MB RAM
+        gc.collect()
         
         # Cache for question embeddings
         self._question_embedding_cache = {}
