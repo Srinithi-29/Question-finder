@@ -3,18 +3,14 @@ import numpy as np
 import os
 import gc
 
-# Optimize CPU threads for memory conservation on Render
+# Optimize CPU threads for memory conservation in ONNX Runtime / FastEmbed
 os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
 os.environ["NUMEXPR_NUM_THREADS"] = "1"
 
-import torch
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
-
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from sklearn.metrics.pairwise import cosine_similarity
 
 logger = logging.getLogger(__name__)
@@ -39,17 +35,17 @@ TOPIC_DESCRIPTIONS = {
 
 class AIService:
     def __init__(self):
-        logger.info("Loading SentenceTransformer model 'all-MiniLM-L6-v2'...")
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
-        logger.info("SentenceTransformer model loaded successfully.")
+        logger.info("Loading FastEmbed TextEmbedding model 'sentence-transformers/all-MiniLM-L6-v2'...")
+        self.model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        logger.info("FastEmbed model loaded successfully.")
         
         # Precompute embeddings for topic descriptions to optimize auto-tagging
         self.topic_tags = AVAILABLE_TAGS
         topic_texts = [TOPIC_DESCRIPTIONS[tag] for tag in self.topic_tags]
-        self.topic_embeddings = self.model.encode(topic_texts)
+        self.topic_embeddings = np.array(list(self.model.embed(topic_texts)))
         logger.info("Precomputed embeddings for topic tags.")
         
-        # Free up loaded build artifacts and variables to fit within 512MB RAM
+        # Free up memory
         gc.collect()
         
         # Cache for question embeddings
@@ -60,7 +56,7 @@ class AIService:
         """
         Generate embedding vector for a given string text.
         """
-        return self.model.encode(text)
+        return list(self.model.embed([text]))[0]
 
     def auto_tag_question(self, question_text: str) -> str:
         """
