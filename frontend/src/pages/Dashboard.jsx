@@ -83,7 +83,7 @@ const Dashboard = () => {
                 required
                 rows="4"
                 className="w-full bg-slate-950/50 border border-slate-850 focus:border-brand-500 rounded-2xl p-4 text-white placeholder-slate-500 focus:outline-none transition-colors resize-none text-base"
-                placeholder="Type your question here... e.g. Why does photosynthesis need sunlight to start?"
+                placeholder="Type your question here..."
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={loading}
