@@ -38,8 +38,7 @@ const Landing = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center w-full">
 
-        {/* Badge */}
-       
+
 
         {/* Hero Heading */}
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 font-sans text-slate-700">
