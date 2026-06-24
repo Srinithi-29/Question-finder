@@ -40,8 +40,7 @@ const Landing = () => {
 
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100 text-primary-800 text-xs font-semibold tracking-wider uppercase mb-8 shadow-sm">
-          <Sparkles className="h-3.5 w-3.5 text-primary-800 animate-pulse" />
-          Powered by Local AI Embedding Models
+          
         </div>
 
         {/* Hero Heading */}
